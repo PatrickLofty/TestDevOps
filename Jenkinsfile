@@ -1,4 +1,4 @@
-// this is a work in progross jenkinsfile
+// this is a work in progress jenkinsfile
 pipeline {
     agent any
 
