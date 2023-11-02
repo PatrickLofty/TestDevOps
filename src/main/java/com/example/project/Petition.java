@@ -17,21 +17,15 @@ public class Petition  {
         this.title = title;
     }
 
-    public static int getIdCounter() {
+    /*private static int getIdCounter() {
         return idCounter;
-    }
+    }*/
 
-    public static void setIdCounter(int idCounter) {
-        Petition.idCounter = idCounter;
-    }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;
@@ -45,19 +39,30 @@ public class Petition  {
         return description;
     }
 
+/*
     public void setDescription(String description) {
         this.description = description;
     }
+*/
 
     public List<Signature> getSignatures() {
         return signatures;
     }
 
+/*
     public void setSignatures(List<Signature> signatures) {
         this.signatures = signatures;
     }
+*/
 
 
+    public void addSignature(Signature signature) {
+        this.signatures.add(signature);
+    }
 
-
+/*
+    public boolean removeSignature(Signature signature) {
+        return this.signatures.remove(signature);
+    }
+*/
 }

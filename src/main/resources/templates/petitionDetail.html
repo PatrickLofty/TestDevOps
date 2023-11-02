@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title th:text="${petition.title}"></title>
+</head>
+<body>
+<h1 th:text="${petition.title}"></h1>
+<p th:text="${petition.description}"></p>
+
+<h2>Signatures</h2>
+<ul>
+    <th:block th:each="signature : ${petition.signatures}">
+        <li th:text="${signature.name} + ' (' + ${signature.email} + ')'"></li>
+    </th:block>
+</ul>
+
+<h2>Sign this Petition</h2>
+<form th:action="@{/petition/{id}/sign(id=${petition.id})}" method="post">
+    <label>Name:
+        <input type="text" name="name" required>
+    </label><br/>
+
+    <label>Email:
+        <input type="email" name="email" required>
+    </label><br/>
+
+    <input type="submit" value="Sign">
+</form>
+</body>
+</html>

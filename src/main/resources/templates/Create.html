@@ -6,13 +6,13 @@
 </head>
 <body>
 <h1>Create a new Petition</h1>
-<form>
-    <label> Title:
-    <input type="text" name="title" required>
+<form action="/create" method="post">
+    <label for="title"> Title:
+    <input type="text" id="title" name="title" required>
     </label><br>
 
-    <label> Description:
-        <textarea name="description" required></textarea>
+    <label for="Description"> Description:
+        <textarea name="description" id="description" required></textarea>
     </label><br>
     <input type="submit" value="Submit">
 </form>
