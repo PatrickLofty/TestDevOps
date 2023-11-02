@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * The type Petition service.
@@ -46,15 +47,15 @@ public class PetitionService {
     }
     public Petition getPetitionByTitle(String title){
         return petitions.stream()
-                .filter(petition -> petition
-                        .getTitle() == title)
+                .filter(petition -> Objects.equals(petition
+                        .getTitle(), title))
                         .findFirst()
                         .orElse(null);
     }
     public Petition getPetitionByDescription(String description){
         return petitions.stream()
-                .filter(petition -> petition
-                        .getDescription() == description)
+                .filter(petition -> Objects.equals(petition
+                        .getDescription(), description))
                         .findFirst()
                         .orElse(null);
     }
