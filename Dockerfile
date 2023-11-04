@@ -1,5 +1,4 @@
 FROM tomcat:latest
-LABEL authors="patrickloftus"
-ADD target/*.war /home/ec2-user/tomcat/webapps/
-EXPOSE 8181
+ADD target/*.war /usr/local/tomcat/webapps/
+EXPOSE 9090
 CMD ["catalina.sh", "run"]
