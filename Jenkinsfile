@@ -2,38 +2,28 @@
 pipeline {
     agent any
 
-    tools {
-        // Define the JDK and Maven versions
-        jdk 'JDK 17'
-        maven 'Maven 3.9.5'
-    }
-
     stages {
-        stage('Checkout') {
+        stage('GetProject') {
             steps {
-                // Checkout the code from the Git repository
-                git 'https://github.com/DonLofto/DevOpsCICD.git'
+                git 'https://github.com/DonLofto/DevOpsProject.git'
             }
         }
 
         stage('Build') {
             steps {
-                // Build the project using Maven
-                sh 'mvn clean install'
+                 // run maven on agent
+                sh "mvn clean:clean"
+                sh "mvn dependency:copy-dependencies"
+                sh "mvn compiler:compile"
+
+                //to run on windows use mvn clean and mvn compile
+
             }
         }
 
-        stage('Generate War') {
+        stage('Execute') {
             steps {
-                // Generate the War file using Maven
-                sh 'mvn package'
-            }
-        }
-
-        stage('Archive') {
-            steps {
-                // Archive the War file
-                archiveArtifacts artifacts: '**/target/*.war', fingerprint: true
+                sh "mvn exec:java"
             }
         }
     }
