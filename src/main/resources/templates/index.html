@@ -2,10 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Create Petition</title>
 </head>
 <body>
-<h4 id="name">Patrick's Petitions</h4>
+<h1>Create a new Petition</h1>
+<form action="/create" method="post">
+    <label for="title"> Title:
+    <input type="text" id="title" name="title" required>
+    </label><br>
+
+    <label for="Description"> Description:
+        <textarea name="description" id="description" required></textarea>
+    </label><br>
+    <input type="submit" value="Submit">
+</form>
 
 
 </body>
