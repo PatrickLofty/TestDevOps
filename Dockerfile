@@ -1,4 +1,4 @@
-FROM tomcat:9.0
-ADD target/*.war /usr/local/tomcat/webapps/
+FROM tomcat:latest
+ADD ./target/*.war /usr/local/tomcat/webapps/
 EXPOSE 9090
 CMD ["catalina.sh", "run"]

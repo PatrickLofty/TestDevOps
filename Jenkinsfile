@@ -1,29 +1,37 @@
 pipeline {
     agent any
 
+   tools
+    {
+       maven "Maven"
+    }
     stages {
-        stage('GetProject') {
+        stage('checkout') {
             steps {
                 git 'https://github.com/DonLofto/DevOpsProject.git'
             }
         }
 
-        stage('Build') {
+        stage('Execute Maven') {
             steps {
                  // run maven on agent
-                sh "mvn clean:clean"
-                sh "mvn dependency:copy-dependencies"
-                sh "mvn compiler:compile"
+                sh 'mvn package'
 
                 //to run on windows use mvn clean and mvn compile
 
             }
         }
 
-        stage('Execute') {
-            steps {
-                sh "mvn exec:java"
-            }
+        stage('Docker Build') {
+                   steps {
+
+                        sh 'docker build -t devopsapp:latest .'
+
+                  }
         }
-    }
+        stage('Run Docker container on Jenkins Agent') {
+
+                    steps
+           {
+                        sh "docker run -d -p 9090:8080 devopsapp"
 }
