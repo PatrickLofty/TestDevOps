@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-   tools
-    {
-       maven "Maven"
-    }
     stages {
         stage('checkout') {
             steps {
@@ -14,24 +10,21 @@ pipeline {
 
         stage('Execute Maven') {
             steps {
-                 // run maven on agent
-                sh 'mvn package'
-
-                //to run on windows use mvn clean and mvn compile
-
+                // run maven on agent
+                sh 'mvn clean package'
             }
         }
 
         stage('Docker Build') {
-                   steps {
-
-                        sh 'docker build -t devopsapp:latest .'
-
-                  }
+            steps {
+                sh 'docker build -t petition:${BUILD_NUMBER} .'
+            }
         }
-        stage('Run Docker container on Jenkins Agent') {
 
-                    steps
-           {
-                        sh "docker run -d -p 9090:8080 devopsapp"
+        stage('Run tomcat container') {
+            steps {
+                sh 'docker run -d -p 9090:8080 petition'
+            }
+        }
+    }
 }
