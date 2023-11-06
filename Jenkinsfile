@@ -15,7 +15,6 @@ pipeline {
                 sh 'mvn compile'
                 sh 'mvn install'
                 sh 'mvn package'
-
                 sh 'mvn spring-boot:run'
 
             }
