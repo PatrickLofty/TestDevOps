@@ -8,13 +8,20 @@ pipeline {
             }
         }
 
-        stage('Execute Maven') {
+        stage('Execute compile package Maven') {
             steps {
                 // run maven on agent
-                sh 'mvn clean package'
+                sh 'mvn clean'
+                sh 'mvn compile'
+                sh 'mvn package'
             }
         }
-
+        post {
+        success {
+        archiveArtifacts allowEmptyArchive: true,
+        artifacts: '**/*.war'
+        }
+        }
         stage('Docker Build') {
             steps {
                 sh 'docker build -t petition:${BUILD_NUMBER} .'
