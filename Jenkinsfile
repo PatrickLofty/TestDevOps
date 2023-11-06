@@ -13,7 +13,11 @@ pipeline {
                 // run maven on agent
                 sh 'mvn clean'
                 sh 'mvn compile'
+                sh 'mvn install'
                 sh 'mvn package'
+
+                sh 'mvn spring-boot:run'
+
             }
         }
         post {
