@@ -14,7 +14,7 @@ pipeline {
                 // run maven on agent
                 sh 'mvn clean compile install package'
                 sh 'mvn spring-boot:run'
-'
+
 
             }
         }
