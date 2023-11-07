@@ -4,8 +4,8 @@ pipeline {
     stages {
         stage('checkout') {
             steps {
-                git clone 'https://github.com/DonLofto/DevOpsProject.git'
-                cd DevOpsProject
+               sh 'git clone https://github.com/DonLofto/DevOpsProject.git'
+               sh 'cd DevOpsProject'
             }
         }
 
