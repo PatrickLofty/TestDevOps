@@ -47,6 +47,8 @@ pipeline {
                             echo "Stopping and removing the existing container using port 9090."
                             sh 'docker stop ${existingContainer} && docker rm ${existingContainer}'
                         }
+                        // Build Docker image
+                        sh "docker build -t petition:${BUILD_NUMBER} ."
                         echo "Running new container from image petition:${BUILD_NUMBER}."
                         }
                     }
