@@ -58,7 +58,7 @@ pipeline {
         stage('Run tomcat container') {
             steps {
                 // Run Docker container. This may require volume mounting if you need to persist data.
-                sh 'docker run -d -p 9090:8080 petition:${BUILD_NUMBER}'
+                sh 'docker run -d -p 9090:9090 petition:${BUILD_NUMBER}'
             }
         }
     }
