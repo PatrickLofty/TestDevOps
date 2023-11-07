@@ -13,7 +13,8 @@ pipeline {
             steps {
                 // run maven on agent
                 sh 'mvn clean compile install package'
-                sh 'mvn spring-boot:run'
+                sh 'mvn spring-boot:run -Dspring-boot.run.arguments=--server.port=8081
+'
 
             }
         }
