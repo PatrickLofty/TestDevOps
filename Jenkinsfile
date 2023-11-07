@@ -57,7 +57,7 @@ pipeline {
                                 }
                                 echo "Running new container from image petition:${BUILD_NUMBER}."
                                 sh "docker run -d -p 9090:9090 petition:${BUILD_NUMBER}"
-                            }
+
                     }
                 }
             }
