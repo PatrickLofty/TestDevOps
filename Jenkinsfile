@@ -49,18 +49,15 @@ pipeline {
             steps {
                 dir("${WORKSPACE_DIR}") {
                     script {
-                        // Check if the Docker container is running
-                        def containerRunning = sh(script: "docker ps -q --filter 'name=petition'", returnStdout: true).trim()
-                        // If the container ID is not empty, it's running
-                        if (containerRunning) {
-                            // Stop and remove the running container
-                            sh "docker stop ${containerRunning} && docker rm ${containerRunning}"
-                        } else {
-                            // Build the Docker image if the container is not running
-                            sh "docker build -t petition:${BUILD_NUMBER} ."
-                            // Run the new Docker container
-                            sh "docker run -d --name petition -p 9090:9090 petition:${BUILD_NUMBER}"
-                        }
+                                // Check if any Docker container is using port 9090
+                                def existingContainer = sh(script: "docker ps --filter 'publish=9090' -q", returnStdout: true).trim()
+                                if (existingContainer) {
+                                    echo "Stopping and removing the existing container using port 9090."
+                                    sh "docker stop ${existingContainer} && docker rm ${existingContainer}"
+                                }
+                                echo "Running new container from image petition:${BUILD_NUMBER}."
+                                sh "docker run -d -p 9090:9090 petition:${BUILD_NUMBER}"
+                            }
                     }
                 }
             }
