@@ -40,17 +40,12 @@ pipeline {
             stage('Docker Build') {
                 steps {
                     dir("${WORKSPACE_DIR}") {
-                        script {
-                        // Check if any Docker container is using port 9090
-                        def existingContainer = sh(script: "docker ps --filter 'publish=9090' -q", returnStdout: true).trim()
-                        if (existingContainer) {
-                            echo "Stopping and removing the existing container using port 9090."
+                        // Stop and remove all containers
                             sh "docker stop ${docker ps -aq}"
                             sh "docker rm -f ${docker ps -aq}"
-                        }
                         // Build Docker image
-                        sh "docker build -t petition:${BUILD_NUMBER} ."
-                        echo "Running new container from image petition:${BUILD_NUMBER}."
+                            sh "docker build -t petition:${BUILD_NUMBER} ."
+                            echo "Running new container from image petition:${BUILD_NUMBER}."
                         }
                     }
                 }
