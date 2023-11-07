@@ -38,13 +38,6 @@ pipeline {
                 }
             }
 
-           //stage('Spring boot run') {
-         //       steps {
-           //             sh 'mvn spring-boot:run'
-           //         }
-           //     }
-           // }
-
             stage('Docker Build') {
                 steps {
                     dir("${WORKSPACE_DIR}") {
