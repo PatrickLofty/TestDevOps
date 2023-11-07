@@ -43,7 +43,7 @@ pipeline {
             steps {
                 dir("${WORKSPACE_DIR}") {
                     // Build Docker image in the unique directory
-                    sh 'sudo docker build -t petition:${BUILD_NUMBER} .'
+                    sh 'docker build -t petition:${BUILD_NUMBER} .'
                 }
             }
         }
@@ -51,7 +51,7 @@ pipeline {
         stage('Run tomcat container') {
             steps {
                 // Run Docker container. This may require volume mounting if you need to persist data.
-                sh 'sudo docker run -d -p 9090:9090 petition:${BUILD_NUMBER}'
+                sh 'docker run -d -p 9090:9090 petition:${BUILD_NUMBER}'
             }
         }
     }
