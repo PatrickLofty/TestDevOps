@@ -30,6 +30,11 @@ pipeline {
 
                 }
             }
+            post {
+                success {
+                    archiveArtifacts allowEmptyArchive: true, artifacts: '**/*.war'
+                }
+            }
         }
 
        //stage('Spring boot run') {
@@ -47,6 +52,8 @@ pipeline {
                 }
             }
         }
+
+
 
         stage('Run tomcat container') {
             steps {
