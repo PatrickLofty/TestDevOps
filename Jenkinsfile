@@ -19,7 +19,12 @@ pipeline {
 
             }
         }
-
+        post {
+        success {
+        archiveArtifacts allowEmptyArchive: true,
+        artifacts: '**/*.war'
+        }
+        }
         stage('Docker Build') {
             steps {
                 sh 'docker build -t petition:${BUILD_NUMBER} .'
