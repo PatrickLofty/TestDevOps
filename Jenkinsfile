@@ -27,7 +27,7 @@ pipeline {
                 dir("${WORKSPACE_DIR}") {
                     // Run maven commands in the unique directory
                     sh 'mvn clean compile install package'
-                    sh 'mvn spring-boot:run'
+
                 }
             }
         }
