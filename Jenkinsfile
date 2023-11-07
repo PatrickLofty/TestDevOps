@@ -40,13 +40,15 @@ pipeline {
             stage('Docker Build') {
                 steps {
                     dir("${WORKSPACE_DIR}") {
-                        // Stop and remove all containers
-                            sh "docker stop ${docker ps -aq}"
-                            sh "docker rm -f ${docker ps -aq}"
-                        // Build Docker image
+                        script {
+                        echo "Stop all running containers"
+                            sh "docker stop \$(docker ps -aq)"
+                        echo "Remove all containers"
+                            sh "docker rm -f \$(docker ps -aq)"
+                        echo "Build Docker image"
                             sh "docker build -t petition:${BUILD_NUMBER} ."
-                            echo "Running new container from image petition:${BUILD_NUMBER}."
-                        }
+                        echo "Built new image: petition:${BUILD_NUMBER}"
+                    }
                     }
                 }
             }
