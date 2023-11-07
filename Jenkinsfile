@@ -42,7 +42,7 @@ pipeline {
                     dir("${WORKSPACE_DIR}") {
                         script {
                         // Check if any Docker container is using port 9090
-                        def existingContainer = sh(script: 'docker ps --filter 'publish=9090' -q', returnStdout: true).trim()
+                        def existingContainer = sh(script: "docker ps --filter 'publish=9090' -q", returnStdout: true).trim()
                         if (existingContainer) {
                             echo "Stopping and removing the existing container using port 9090."
                             sh 'docker stop ${existingContainer} && docker rm ${existingContainer}'
