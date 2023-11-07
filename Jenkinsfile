@@ -26,7 +26,7 @@ pipeline {
                 // Change directory to the unique workspace
                 dir("${WORKSPACE_DIR}") {
                     // Run maven commands in the unique directory
-                    sh 'sudo mvn clean compile install package'
+                    sh 'mvn clean compile install package'
 
                 }
             }
