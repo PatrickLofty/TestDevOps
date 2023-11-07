@@ -64,13 +64,11 @@ pipeline {
                 steps {
                     script {
                         // Check if endpoint is responding
-                        def appUrl = "http://localhost:9090/project" // Replace with your app's actual URL
-                        def response = sh(script: "curl -s -o /dev/null -w '%{http_code}' ${appUrl}", returnStdout: true).trim()
-                        if (response == '200') {
-                            echo "The application is responding successfully."
-                        } else {
-                            error "The application is not responding successfully. Response code: ${response}"
-                        }
+                            def responseCode = sh(script: "curl -s -o /dev/null -w '%{http_code}' http://localhost:9090/project", returnStdout: true).trim()
+                        echo "Response Code: ${responseCode}"
+                            if (responseCode != '200') {
+                                error "Application did not respond with a 200 OK. Response was: ${responseCode}"
+                            }
                     }
                 }
             }
