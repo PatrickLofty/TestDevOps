@@ -26,7 +26,7 @@ pipeline {
                 // Change directory to the unique workspace
                 dir("${WORKSPACE_DIR}") {
                     // Run maven commands in the unique directory
-                    sh 'mvn clean compile install package'
+                    sh 'sudo mvn clean compile install package'
 
                 }
             }
@@ -43,7 +43,7 @@ pipeline {
             steps {
                 dir("${WORKSPACE_DIR}") {
                     // Build Docker image in the unique directory
-                    sh 'docker build -t petition:${BUILD_NUMBER} .'
+                    sh 'sudo docker build -t petition:${BUILD_NUMBER} .'
                 }
             }
         }
@@ -51,7 +51,7 @@ pipeline {
         stage('Run tomcat container') {
             steps {
                 // Run Docker container. This may require volume mounting if you need to persist data.
-                sh 'docker run -d -p 9090:9090 petition:${BUILD_NUMBER}'
+                sh 'sudo docker run -d -p 9090:9090 petition:${BUILD_NUMBER}'
             }
         }
     }
