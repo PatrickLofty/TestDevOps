@@ -58,11 +58,8 @@ pipeline {
 
             stage('Run tomcat container') {
                 steps {
-                    // Run Docker container. This may require volume mounting if you need to persist data.
-
+                    // Run Docker container.
                     sh 'docker run -d -p 9090:9090 petition:${BUILD_NUMBER}'
-                    sh 'apt update'
-                    sh 'apt install lsof'
                 }
             }
         }
