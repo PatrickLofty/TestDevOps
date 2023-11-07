@@ -45,11 +45,20 @@
 		<finalName>${project.artifactId}</finalName>
 		<plugins>
 			<plugin>
+				<artifactId/>
 
+				<configuration>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<version>3.1.5</version>
 
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<mainClass>com.example.project.ProjectApplication</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
 
 		</plugin>
 		</plugins>
