@@ -59,6 +59,21 @@ pipeline {
                     sh 'docker run -d -p 9090:9090 petition:${BUILD_NUMBER}'
                 }
             }
+
+            stage('Verify Deployment') {
+                steps {
+                    script {
+                        // Check if endpoint is responding
+                        def appUrl = "http://localhost:9090/project" // Replace with your app's actual URL
+                        def response = sh(script: "curl -s -o /dev/null -w '%{http_code}' ${appUrl}", returnStdout: true).trim()
+                        if (response == '200') {
+                            echo "The application is responding successfully."
+                        } else {
+                            error "The application is not responding successfully. Response code: ${response}"
+                        }
+                    }
+                }
+            }
         }
 
     post {
