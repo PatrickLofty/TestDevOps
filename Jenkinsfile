@@ -6,74 +6,68 @@ pipeline {
         WORKSPACE_DIR = "build_workspace_${env.BUILD_ID}"
     }
 
-    stages {
-        stage('Prepare Workspace') {
-            steps {
-                // Create a new directory based on the BUILD_ID
-                sh 'rm -rf * ${WORKSPACE_DIR}'
-                sh 'mkdir -p ${WORKSPACE_DIR}'
-            }
-        }
-
-        stage('checkout') {
-            steps {
-               // Clone the repository into the unique directory
-               sh 'git clone https://github.com/DonLofto/DevOpsProject.git ${WORKSPACE_DIR}'
-            }
-        }
-
-        stage('Execute compile package Maven') {
-            steps {
-                // Change directory to the unique workspace
-                dir("${WORKSPACE_DIR}") {
-                    // Run maven commands in the unique directory
-                    sh 'mvn clean compile package'
-
+        stages {
+            stage('Prepare Workspace') {
+                steps {
+                    // Create a new directory based on the BUILD_ID
+                    sh 'rm -rf * ${WORKSPACE_DIR}'
+                    sh 'mkdir -p ${WORKSPACE_DIR}'
                 }
             }
-            post {
-                success {
-                    archiveArtifacts allowEmptyArchive: true, artifacts: '**/target/*.war'
+
+            stage('checkout') {
+                steps {
+                   // Clone the repository into the unique directory
+                   sh 'git clone https://github.com/DonLofto/DevOpsProject.git ${WORKSPACE_DIR}'
                 }
             }
-        }
 
-       //stage('Spring boot run') {
-     //       steps {
-       //             sh 'mvn spring-boot:run'
-       //         }
-       //     }
-       // }
-
-        stage('Docker Build') {
-            steps {
-                dir("${WORKSPACE_DIR}") {
-                    script {
-                                // Check if any Docker container is using port 9090
-                                def existingContainer = sh(script: 'docker ps --filter 'publish=9090' -q', returnStdout: true).trim()
-                                if (existingContainer) {
-                                    echo "Stopping and removing the existing container using port 9090."
-                                    sh 'docker stop ${existingContainer} && docker rm ${existingContainer}''
-                                }
-                                echo "Running new container from image petition:${BUILD_NUMBER}."
-                                sh 'docker run -d -p 9090:9090 petition:${BUILD_NUMBER}'
+            stage('Execute compile package Maven') {
+                steps {
+                    // Change directory to the unique workspace
+                    dir("${WORKSPACE_DIR}") {
+                        // Run maven commands in the unique directory
+                        sh 'mvn clean compile package'
 
                     }
                 }
+                post {
+                    success {
+                        archiveArtifacts allowEmptyArchive: true, artifacts: '**/target/*.war'
+                    }
+                }
+            }
+
+           //stage('Spring boot run') {
+         //       steps {
+           //             sh 'mvn spring-boot:run'
+           //         }
+           //     }
+           // }
+
+            stage('Docker Build') {
+                steps {
+                    dir("${WORKSPACE_DIR}") {
+                        script {
+                        // Check if any Docker container is using port 9090
+                        def existingContainer = sh(script: 'docker ps --filter 'publish=9090' -q', returnStdout: true).trim()
+                        if (existingContainer) {
+                            echo "Stopping and removing the existing container using port 9090."
+                            sh 'docker stop ${existingContainer} && docker rm ${existingContainer}'
+                        }
+                        echo "Running new container from image petition:${BUILD_NUMBER}."
+                        }
+                    }
+                }
+            }
+
+            stage('Run tomcat container') {
+                steps {
+                    // Run Docker container. This may require volume mounting if you need to persist data.
+                    sh 'docker run -d -p 9090:9090 petition:${BUILD_NUMBER}'
+                }
             }
         }
-
-
-
-
-
-        stage('Run tomcat container') {
-            steps {
-                // Run Docker container. This may require volume mounting if you need to persist data.
-                sh 'docker run -d -p 9090:9090 petition:${BUILD_NUMBER}'
-            }
-        }
-    }
     post {
         always {
             // Clean up the workspace after the build is done
