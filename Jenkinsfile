@@ -66,6 +66,7 @@ pipeline {
 
 
 
+
         stage('Run tomcat container') {
             steps {
                 // Run Docker container. This may require volume mounting if you need to persist data.
