@@ -12,6 +12,7 @@ pipeline {
         stage('Execute compile package Maven') {
             steps {
                 // run maven on agent
+                sh 'rm -rf *'
                 sh 'mvn clean compile install package'
                 sh 'mvn spring-boot:run'
 
