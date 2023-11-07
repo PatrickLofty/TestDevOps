@@ -32,7 +32,7 @@ pipeline {
             }
             post {
                 success {
-                    archiveArtifacts allowEmptyArchive: true, artifacts: '**/*.war'
+                    archiveArtifacts allowEmptyArchive: true, artifacts: '**/project.war'
                 }
             }
         }
