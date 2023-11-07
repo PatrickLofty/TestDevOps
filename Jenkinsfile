@@ -4,17 +4,15 @@ pipeline {
     stages {
         stage('checkout') {
             steps {
-                git 'https://github.com/DonLofto/DevOpsProject.git'
+                git clone 'https://github.com/DonLofto/DevOpsProject.git'
+                cd DevOpsProject
             }
         }
 
         stage('Execute compile package Maven') {
             steps {
                 // run maven on agent
-                sh 'mvn clean'
-                sh 'mvn compile'
-                sh 'mvn install'
-                sh 'mvn package'
+                sh 'mvn clean compile install package'
                 sh 'mvn spring-boot:run'
 
             }
