@@ -10,7 +10,6 @@ pipeline {
             stage('Prepare Workspace') {
                 steps {
                     // Create a new directory based on the BUILD_ID
-                    sh 'rm -rf * ${WORKSPACE_DIR}'
                     sh 'mkdir -p ${WORKSPACE_DIR}'
                 }
             }
