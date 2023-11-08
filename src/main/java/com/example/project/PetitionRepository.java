@@ -1,9 +1,11 @@
+package com.example.project;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
-public interface PetitionRepository extends JpaRepository<Petition, Long> {
-    // This method signature assumes that you want to search petitions by title.
-    // It will find any petitions where the title contains the search query, ignoring case.
+public interface PetitionRepository extends JpaRepository<Petition, Integer> {
     Optional<Petition> findByTitleContainingIgnoreCase(String title);
 }

@@ -3,7 +3,11 @@
  */
 package com.example.project;
 
+import org.springframework.web.bind.annotation.*;
 
+
+
+@RestController
 public class Signature {
     private String name;
     private String email;

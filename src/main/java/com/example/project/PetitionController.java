@@ -1,22 +1,18 @@
 package com.example.project;
 
-import org.springframework.stereotype.Controller;
+
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 /**
  * The type Petition controller.
  */
-@Controller
+@RestController
 public class PetitionController {
    private final PetitionService petitionService;
-
+    private static final String ERROR_MESSAGE = "errorMessage";
     
     public PetitionController(PetitionService petitionService) {
         this.petitionService = petitionService;
@@ -24,39 +20,51 @@ public class PetitionController {
 
   
     @PostMapping("/create")
-    public String createPetition(@RequestParam String title, @RequestParam String description){
+    public String createPetition(@RequestParam String title, @RequestParam String description, Model model){
         Petition newPetition= new Petition(title, description);
         boolean isAdded = petitionService.addPetition(newPetition);
         if (isAdded) {
             return "";
         } else {
-            model.addAttribute("errorMessage", "There was a problem creating the petition, please try again");
-            return "petitionDetail"
+            model.addAttribute(ERROR_MESSAGE, "There was a problem creating the petition, please try again");
+            return "petitionDetailAndSign";
             
         }
+    }
+
+    @GetMapping("/create")
+    public String showForm(Model model) {
+        model.addAttribute("petition", new Petition());
+        return "index";
+    }
+
+    @PostMapping("/create")
+    public void submitForm(Petition petition) {
+        petitionService.addPetition(petition);// Return to a success page
     }
 
     
     @GetMapping("/search")
     public String searchForm() {
-        return "search";
+        return "SearchPetitionsForm";
     }
 
     
     @PostMapping("/searchResult")
     public String searchResult(@RequestParam String query, Model model) {
-        List<Petition> results = petitionService.searchPetitions(query);
+        List<Petition> results = petitionService.searchPetitions();
         if (results.isEmpty()) {
-            model.addAttribute("errorMessage", "No results found");
+            model.addAttribute(ERROR_MESSAGE, "No results found");
         } else {
             model.addAttribute("petitions", results);
-            return "view";
+            return "viewAllPetitions";
         }
+        return query;
     }
 
 
     
-    @GetMapping("/petition/{id}")
+   /* @GetMapping("/petition/{id}")
     public String viewPetition(@PathVariable int id, Model model) {
         Petition petition = petitionService.getPetitionById(id);
         if (petition == null) {
@@ -66,13 +74,13 @@ public class PetitionController {
             model.addAttribute("petition", petition);
             return "petitionDetail";
         }
-    }
+    }*/
 
     @PostMapping("/petition/{id}/sign")
     public String signPetition(@PathVariable int id, @ModelAttribute Signature signature, Model model) {
         Petition petition = petitionService.getPetitionById(id);
         if (petition == null) {
-            model.addAttribute("errorMessage", "Petition not found");
+            model.addAttribute(ERROR_MESSAGE, "Petition not found");
             return "error";
         } else {
             boolean signatureAdded = petition.addSignature(signature);
@@ -88,7 +96,7 @@ public class PetitionController {
     public String searchAndViewPetitions(@RequestParam(required = false) String query, Model model) {
         List<Petition> petitions;
         if (query != null && !query.isEmpty()) {
-            petitions = petitionService.searchPetitions(query);
+            petitions = petitionService.searchPetitions();
         } else {
             petitions = petitionService.getAllPetitions(); // Or a subset if you prefer
         }
