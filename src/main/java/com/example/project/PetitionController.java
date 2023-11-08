@@ -1,6 +1,6 @@
 package com.example.project;
 
-
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,21 +27,32 @@ public class PetitionController {
             return "";
         } else {
             model.addAttribute(ERROR_MESSAGE, "There was a problem creating the petition, please try again");
-            return "petitionDetailAndSign";
+            return "viewAllPetitions";
             
         }
     }
 
     @GetMapping("/create")
-    public String showForm(Model model) {
-        model.addAttribute("petition", new Petition());
-        return "index";
+    public String showCreatePetitionForm(Model model) {
+        model.addAttribute("petition", new Petition()); // Make sure the Petition class has 'title' and 'description' fields
+        return "viewAllPetitions"; // The name of the Thymeleaf template
     }
 
-    @PostMapping("/create")
+    @GetMapping("/viewAllPetitions")
+    public String showForm(Model model) {
+        // Fetch all petitions from your service or repository
+        List<Petition> allPetitions = petitionService.getAllPetitions();
+        // Add the list of petitions to the model
+        model.addAttribute("petitions", allPetitions);
+        // Return the view name
+        return "viewAllPetitions";
+    }
+
+
+   /* @PostMapping("/create")
     public void submitForm(Petition petition) {
         petitionService.addPetition(petition);// Return to a success page
-    }
+    }*/
 
     
     @GetMapping("/search")
