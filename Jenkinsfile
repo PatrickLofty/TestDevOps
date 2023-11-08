@@ -48,16 +48,24 @@ pipeline {
                         echo "Build Docker image"
                             sh "docker build -t petition:${BUILD_NUMBER} ."
                         echo "Built new image: petition:${BUILD_NUMBER}"
-                    }
+                        }
                     }
                 }
             }
 
             stage('Run tomcat container') {
                 steps {
-                    // Run Docker container.
-                    sh 'docker run -d -p 9090:9090 petition:${BUILD_NUMBER}'
-
+                    script{
+                        echo "Run tomcat container"
+                         sh 'docker run -d -p 9090:9090 petition:${BUILD_NUMBER}'
+                        // Check if the container is running
+                        def isRunning = sh(script: "docker ps | grep petition:${BUILD_NUMBER}", returnStatus: true)
+                        if (isRunning) {
+                            echo "Container is running"
+                        } else {
+                            error "Container is not running"
+                        }
+                    }
                 }
             }
 
