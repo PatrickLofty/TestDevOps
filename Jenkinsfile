@@ -50,7 +50,7 @@ pipeline {
                         echo "Built new image: petition:${BUILD_NUMBER}"
                         }
                     }
-                }
+
             }
 
             stage('Run tomcat container') {
