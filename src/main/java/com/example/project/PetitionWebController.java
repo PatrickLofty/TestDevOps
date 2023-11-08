@@ -82,7 +82,20 @@ public class PetitionController {
             model.addAttribute("petition", petition);
             return "petitionDetail"; // The name of the HTML page to return
         }
-}
+    }
+
+    @GetMapping("/search")
+    public String searchAndViewPetitions(@RequestParam(required = false) String query, Model model) {
+        List<Petition> petitions;
+        if (query != null && !query.isEmpty()) {
+            petitions = petitionService.searchPetitions(query);
+        } else {
+            petitions = petitionService.getAllPetitions(); // Or a subset if you prefer
+        }
+        model.addAttribute("petitions", petitions);
+        return "searchAndViewPetitions"; // The HTML page
+    }
+
 
 
 }

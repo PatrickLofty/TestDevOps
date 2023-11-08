@@ -18,6 +18,18 @@ import java.util.Objects;
 public class PetitionService {
     private List<Petition> petitions = new ArrayList<>();
 
+    @Autowired
+    public PetitionService(PetitionRepository petitionRepository) {
+        this.petitionRepository = petitionRepository;
+    }
+
+    public Petition searchForSinglePetition(String query) {
+        // This assumes that there's a method in the repository that can find a petition by a search term.
+        // The actual implementation would depend on how your data is structured and how you want to search for it.
+        Optional<Petition> petition = petitionRepository.findByTitleContainingIgnoreCase(query);
+        return petition.orElse(null); // Returns the petition if found, or null otherwise
+    }
+
     // The `public PetitionService()` is a constructor for the `PetitionService` class. It is called
     // when an instance of the `PetitionService` class is created.
     public PetitionService(){
@@ -25,6 +37,7 @@ public class PetitionService {
         petitions.add(new Petition("Increase grants for Home Energy Upgrades", "We need to increase the grants for home energy upgrades to prevent energy poverty"));
 
     }
+
     
     /**
      * The function getAllPetitions returns a list of all petitions.

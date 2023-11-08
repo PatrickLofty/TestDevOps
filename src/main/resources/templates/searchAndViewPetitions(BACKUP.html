@@ -1,0 +1,28 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+   
+    <title>Search and View Petitions</title>
+</head>
+<body>
+    <h1>Search Petitions</h1>
+    <form action="/search" method="get">
+        <input type="text" id="query" name="query" placeholder="Search for petitions..." required>
+        <input type="submit" value="Search">
+    </form>
+
+    <div>
+        <h2>Petitions</h2>
+        <ul>
+            <!-- If there are no search results, display all petitions -->
+            <div th:if="${petitions.empty}">
+                <p>No petitions to display or no results found.</p>
+            </div>
+            <!-- Loop through the petitions and display them -->
+            <li th:each="petition : ${petitions}">
+                <a th:href="@{/petition/{id}(id=${petition.id})}" th:text="${petition.title}"></a>
+            </li>
+        </ul>
+    </div>
+</body>
+</html> {% endcomment %}

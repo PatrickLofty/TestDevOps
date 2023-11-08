@@ -1,22 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Create Petition</title>
 </head>
 <body>
 <h1>Create a new Petition</h1>
-<form action="/create" method="post">
-    <label for="title"> Title:
-    <input type="text" id="title" name="title" required>
+
+<!-- 
+  The `th:object` attribute specifies the object that backs the form.
+  The `th:action` attribute dynamically sets the form's action URL.
+  `@{/create}` is a Thymeleaf expression that points to the path handled by your controller for creating petitions.
+-->
+<form th:action="@{/create}" th:object="${petition}" method="post">
+    <label for="title">Title:
+        <!-- The `th:field` attribute binds this input to the 'title' field of the petition object -->
+        <input type="text" id="title" th:field="*{title}" required>
     </label><br>
 
-    <label for="Description"> Description:
-        <textarea name="description" id="description" required></textarea>
+    <label for="description">Description:
+        <!-- The `th:field` attribute binds this textarea to the 'description' field of the petition object -->
+        <textarea id="description" th:field="*{description}" required></textarea>
     </label><br>
+    
     <input type="submit" value="Submit">
 </form>
-
 
 </body>
 </html>
