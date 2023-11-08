@@ -59,7 +59,8 @@ pipeline {
                         echo "Run tomcat container"
                         sh 'docker run -d -p 9090:9090 petition:${BUILD_NUMBER}'
                         // Check if the container is running
-                        def isRunning = sh(script: "docker ps | grep petition:${BUILD_NUMBER}", returnStatus: true)
+                        sleep 5 // Wait for the container to start
+                        def isRunning = sh(script: "docker ps | grep petition:${BUILD_NUMBER}", returnStatus: true) == 0
                         if (isRunning) {
                             echo "Container is running"
                         } else {
