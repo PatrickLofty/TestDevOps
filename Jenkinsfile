@@ -57,6 +57,7 @@ pipeline {
                 steps {
                     // Run Docker container.
                     sh 'docker run -d -p 9090:9090 petition:${BUILD_NUMBER}'
+
                 }
             }
 
@@ -66,8 +67,10 @@ pipeline {
                         // Check if endpoint is responding
                             def responseCode = sh(script: "curl -s -o /dev/null -w '%{http_code}' http://localhost:9090/project", returnStdout: true).trim()
                         echo "Response Code: ${responseCode}"
-                            if (responseCode != '200') {
+                            if (responseCode != '44') {
                                 error "Application did not respond with a 200 OK. Response was: ${responseCode}"
+                            } else {
+                                echo "Application is responding with a 200 OK"
                             }
                     }
                 }
