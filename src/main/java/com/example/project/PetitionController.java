@@ -1,91 +1,68 @@
 package com.example.project;
 
+import org.apache.catalina.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping;
+
 
 import java.util.List;
 
-/**
- * The type Petition controller.
- */
-@RestController
+@Controller
 public class PetitionController {
-   private final PetitionService petitionService;
+    private final PetitionService petitionService;
     private static final String ERROR_MESSAGE = "errorMessage";
-    
-    public PetitionController(PetitionService petitionService) {
+    private final BeanNameUrlHandlerMapping name;
+
+    public PetitionController(PetitionService petitionService, BeanNameUrlHandlerMapping name) {
         this.petitionService = petitionService;
+        this.name = name;
     }
 
-  
     @PostMapping("/create")
-    public String createPetition(@RequestParam String title, @RequestParam String description, Model model){
-        Petition newPetition= new Petition(title, description);
+    public String createPetition(@RequestParam String title, @RequestParam String description, Model model) {
+        Petition newPetition = new Petition(title, description);
         boolean isAdded = petitionService.addPetition(newPetition);
         if (isAdded) {
-            return "";
+            return "redirect:/viewAllPetitions";
         } else {
             model.addAttribute(ERROR_MESSAGE, "There was a problem creating the petition, please try again");
             return "viewAllPetitions";
-            
         }
     }
 
+    @GetMapping("/register")
+    public String showRegistrationForm(Model model) {
+        model.addAttribute("name", new name()); // Ensure this object has an 'email' field
+        return "registration";
+    }
+
+
     @GetMapping("/create")
     public String showCreatePetitionForm(Model model) {
-        model.addAttribute("petition", new Petition()); // Make sure the Petition class has 'title' and 'description' fields
-        return "viewAllPetitions"; // The name of the Thymeleaf template
+        model.addAttribute("petition", new Petition());
+        return "index";
     }
 
     @GetMapping("/viewAllPetitions")
     public String showForm(Model model) {
-        // Fetch all petitions from your service or repository
         List<Petition> allPetitions = petitionService.getAllPetitions();
-        // Add the list of petitions to the model
         model.addAttribute("petitions", allPetitions);
-        // Return the view name
         return "viewAllPetitions";
     }
 
-
-   /* @PostMapping("/create")
-    public void submitForm(Petition petition) {
-        petitionService.addPetition(petition);// Return to a success page
-    }*/
-
-    
-    @GetMapping("/search")
-    public String searchForm() {
-        return "SearchPetitionsForm";
-    }
-
-    
     @PostMapping("/searchResult")
     public String searchResult(@RequestParam String query, Model model) {
-        List<Petition> results = petitionService.searchPetitions();
+        List<Petition> results = petitionService.searchPetitions(query);
         if (results.isEmpty()) {
             model.addAttribute(ERROR_MESSAGE, "No results found");
+            return "searchAndViewPetitions";
         } else {
             model.addAttribute("petitions", results);
             return "viewAllPetitions";
         }
-        return query;
     }
-
-
-    
-   /* @GetMapping("/petition/{id}")
-    public String viewPetition(@PathVariable int id, Model model) {
-        Petition petition = petitionService.getPetitionById(id);
-        if (petition == null) {
-            model.addAttribute("errorMessage", "Petition not found");
-            return "error";
-        } else {
-            model.addAttribute("petition", petition);
-            return "petitionDetail";
-        }
-    }*/
 
     @PostMapping("/petition/{id}/sign")
     public String signPetition(@PathVariable int id, @ModelAttribute Signature signature, Model model) {
@@ -99,7 +76,7 @@ public class PetitionController {
                 model.addAttribute("signatureError", "Signature already exists.");
             }
             model.addAttribute("petition", petition);
-            return "petitionDetail"; // The name of the HTML page to return
+            return "petitionDetail";
         }
     }
 
@@ -107,14 +84,11 @@ public class PetitionController {
     public String searchAndViewPetitions(@RequestParam(required = false) String query, Model model) {
         List<Petition> petitions;
         if (query != null && !query.isEmpty()) {
-            petitions = petitionService.searchPetitions();
+            petitions = petitionService.searchPetitions(query);
         } else {
-            petitions = petitionService.getAllPetitions(); // Or a subset if you prefer
+            petitions = petitionService.getAllPetitions();
         }
         model.addAttribute("petitions", petitions);
-        return "searchAndViewPetitions"; // The HTML page
+        return "searchAndViewPetitions";
     }
-
-
-
 }

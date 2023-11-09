@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-   
+    <meta charset="UTF-8">
     <title>Search Petitions</title>
 </head>
 <body>
@@ -13,13 +13,12 @@
 
     <div>
         <h2>Search Results</h2>
-        <div th:if="${petitions.isEmpty()}">
+        <div th:if="${#lists.isEmpty(petitions)}">
             <p>No results found</p>
         </div>
-        <ul>
+        <ul th:unless="${#lists.isEmpty(petitions)}">
             <li th:each="petition : ${petitions}">
-                <span th:text="${petition.title}"></span>
-                
+                <span th:text="${petition.title}">Petition Title</span>
             </li>
         </ul>
     </div>

@@ -9,13 +9,15 @@
 <ul>
     <th:block th:each="petition : ${petitions}">
         <li>
-            <a th:href="@{/petition/{id}(id=${petition.id})}" th:text="${petition.title}"></a>
+            <a th:href="@{/petition/{id}(id=${petition.id})}" th:text="${petition.title}">Petition Title</a>
         </li>
     </th:block>
 </ul>
+<!-- Assuming there is a button with the id 'searchButton' -->
+<button id="searchButton">Search</button>
 <script>
     document.getElementById('searchButton').addEventListener('click', function() {
-        window.location.href = 'view.html';
+        window.location.href = '/search'; // Assuming 'view.html' was incorrect and '/search' is the correct path
     });
 </script>
 </body>
