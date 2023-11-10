@@ -1,6 +1,8 @@
-package com.example.project;
+package com.example.project.controller;
 
-import org.apache.catalina.User;
+import com.example.project.model.Signature;
+import com.example.project.model.Petition;
+import com.example.project.service.PetitionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,14 +30,14 @@ public class PetitionController {
             return "redirect:/viewAllPetitions";
         } else {
             model.addAttribute(ERROR_MESSAGE, "There was a problem creating the petition, please try again");
-            return "viewAllPetitions";
+            return "index";
         }
     }
 
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
-        model.addAttribute("name", new name()); // Ensure this object has an 'email' field
-        return "registration";
+        model.addAttribute("name", name); // Ensure this object has an 'email' field
+        return "petitionDetailAndSign";
     }
 
 

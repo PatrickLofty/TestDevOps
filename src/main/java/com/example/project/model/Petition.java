@@ -1,7 +1,8 @@
-package com.example.project;
+package com.example.project.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -10,7 +11,7 @@ public class Petition {
     private final int id;
     private String title;
     private String description;
-    private List<Signature> signatures = new ArrayList<>();
+    private final List<Signature> signatures = new ArrayList<>();
 
     public Petition(String title, String description) {
         this.id = idCounter.getAndIncrement();
@@ -43,7 +44,7 @@ public class Petition {
     }
 
     public Collection<Object> getSignatures() {
-        return null;
+        return Collections.emptyList();
     }
 
     public boolean addSignature(Signature signature) {

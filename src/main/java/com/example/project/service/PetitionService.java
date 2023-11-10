@@ -1,5 +1,8 @@
-package com.example.project;
+package com.example.project.service;
 
+
+import com.example.project.model.Petition;
+import com.example.project.repository.PetitionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +18,11 @@ public class PetitionService {
         this.petitionRepository = petitionRepository;
     }
 
-    public Petition searchForSinglePetition(String query) {
+    /*public Petition searchForSinglePetition(String query) {
         return petitionRepository
                 .findByTitleContainingIgnoreCase(query)
                 .orElse(null);
-    }
+    }*/
 
     public List<Petition> getAllPetitions() {
         return petitionRepository.findAll();
@@ -34,9 +37,9 @@ public class PetitionService {
         return true;
     }
 
-    public List<Petition> searchPetitions(String query) {
+   /* public List<Petition> searchPetitions(String query) {
         return petitionRepository.findByTitleContainingIgnoreCase(query).stream()
                 .filter(petition -> petition.getSignatures().size() < 10)
                 .collect(Collectors.toList());
-    }
+    }*/
 }
