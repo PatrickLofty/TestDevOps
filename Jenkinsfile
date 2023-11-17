@@ -57,8 +57,8 @@ pipeline {
 
         stage('Clean Tomcat Webapps') {
                     steps { sh "rm -rf /usr/local/tomcat/webapps/*" }
-                }
         }
+
 
 
 
