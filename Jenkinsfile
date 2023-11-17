@@ -29,6 +29,7 @@ pipeline {
                     sh 'mvn clean compile package'
                 }
             }
+
             post {
                 success {
                     archiveArtifacts allowEmptyArchive: true, artifacts: '**/target/*.war'
@@ -53,6 +54,13 @@ pipeline {
                 }
             }
         }
+
+        stage('Clean Tomcat Webapps') {
+                    steps { sh "rm -rf /usr/local/tomcat/webapps/*" }
+                }
+        }
+
+
 
         stage('Run tomcat container') {
             steps {
