@@ -1,22 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>View Petition</title>
+    <title>View Petitions</title>
+    <link rel="stylesheet" href="/static.css/style.css">
 </head>
 <body>
-<h1>Search Results</h1>
-<ul>
-    <th:block th:each="petition : ${petitions}">
-        <li>
-            <a th:href="@{/petition/{id}(id=${petition.id})}" th:text="${petition.title}"></a>
-        </li>
-    </th:block>
-</ul>
-<script>
-    document.getElementById('searchButton').addEventListener('click', function() {
-        window.location.href = 'view.html';
-    });
-</script>
+    <div th:replace="fragments :: topbar"></div>
+    <div class="centered-content">
+        <div class="petitions-container">
+            <div class="petitions-wrapper">
+            <h2 class="petitions-title">Petitions</h2>
+                <th:block th:each="petition : ${petitions}">
+                    <div class="card petition-card">
+                        <h3><a th:href="@{/petition/{id}(id=${petition.id})}" th:text="${petition.title}" class="custom-link"></a></h3>
+                        <p th:text="${petition.description}"></p>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

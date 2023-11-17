@@ -1,0 +1,193 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.custom-link {
+    text-decoration: none;
+    color: #28a745;
+}
+
+.custom-link:hover {
+    text-decoration: underline;
+    color: #093313;
+}
+
+.topbar {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.topbar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.topbar ul li {
+    display: inline;
+    margin: 0 10px;
+}
+
+.topbar a {
+    color: white;
+    text-decoration: none;
+}
+
+.centered-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 60px);
+}
+
+.card {
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    width: 100%;
+    max-width: 500px;
+}
+
+input[type="text"],
+textarea {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+input[type="submit"] {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #218838;
+}
+
+.back-button {
+    color: white;
+    text-decoration: none;
+    position: absolute;
+    left: 10px;
+    top: 10px;
+}
+
+.container {
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+}
+
+.welcome-message {
+    margin-bottom: 20px;
+}
+
+.create-card {
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.error-message {
+    display: block;
+    color: red;
+    font-size: 0.9em;
+}
+
+.success-message {
+    display: block;
+    color: green;
+    font-size: 0.9em;
+    margin-top: 15px;
+}
+
+.petitions-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.petitions-container {
+	height: 95%;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.petition-card {
+    background: #fff;
+    margin-bottom: 15px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    width: 100%;
+    max-width: 500px;
+}
+
+.petition-detail-container {
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+    height: 90%; 
+}
+
+.detail-card, .sign-card {
+    background: #fff;
+    margin-bottom: 20px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.signatures-card {
+    background: #fff;
+    margin-bottom: 20px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.sign-card form, .signatures-card ul {
+    margin-top: 10px;
+}
+
+.sign-card label, .sign-card input[type="text"], .sign-card input[type="email"], .sign-card input[type="submit"] {
+    display: block;
+    margin-bottom: 10px;
+    width: calc(100% - 20px);
+}
+
+.sign-card input[type="submit"] {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.sign-card input[type="submit"]:hover {
+    background-color: #218838;
+}
