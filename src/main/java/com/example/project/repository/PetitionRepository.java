@@ -1,13 +1,36 @@
 package com.example.project.repository;
 
-import com.example.project.model.Petition;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import com.example.project.model.Petition;
 
-import java.util.Optional;
+/**
+ * JPA repository for Petition entities.
+ */
+public interface PetitionRepository extends JpaRepository<Petition, Long> {
 
-@Repository
-public interface PetitionRepository extends JpaRepository<Petition, Integer> {
+    /**
+     * Finds petitions where the title contains the given string.
+     *
+     * @param title The search query for the title.
+     * @return A list of petitions that contain the query in the title.
+     */
+    List<Petition> findByTitleContaining(String title);
 
-    Optional<Object> findByTitleContainingIgnoreCase(String query);
+    /**
+     * Finds petitions where the description contains the given string.
+     *
+     * @param description The search query for the description.
+     * @return A list of petitions that contain the query in the description.
+     */
+    List<Petition> findByDescriptionContaining(String description);
+
+    /**
+     * Finds petitions where either the title or the description contains the given string.
+     *
+     * @param title The search query for the title.
+     * @param description The search query for the description.
+     * @return A list of petitions that contain the query in either the title or the description.
+     */
+    List<Petition> findByTitleContainingOrDescriptionContaining(String title, String description);
 }

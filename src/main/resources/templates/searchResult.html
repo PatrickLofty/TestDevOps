@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Results</title>
+    <link rel="stylesheet" href="/static.css/style.css">
+</head>
+<body>
+    <div th:replace="fragments :: topbar"></div>
+    <div class="centered-content">
+        <div class="petitions-container">
+            <div class="petitions-wrapper">
+            	<h2 class="petitions-title">Search Results</h2>
+                <th:block th:each="petition : ${searchPetitions}">
+                    <div class="card petition-card">
+                        <h3><a th:href="@{/petition/{id}(id=${petition.id})}" th:text="${petition.title}" class="custom-link"></a></h3>
+                        <p th:text="${petition.description}"></p>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
