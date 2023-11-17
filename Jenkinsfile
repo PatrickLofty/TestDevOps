@@ -2,14 +2,16 @@ pipeline {
     agent any
 
     environment {
-        // Define a unique directory name for the checkout using the BUILD_ID
+        // Define a unique directory name for the checkout
         WORKSPACE_DIR = "build_workspace_${env.BUILD_ID}"
+        // Define a static tag for Docker image
+        DOCKER_IMAGE_TAG = "latest"
     }
 
     stages {
         stage('Prepare Workspace') {
             steps {
-                // Create a new directory based on the BUILD_ID
+                // Create a new directory
                 sh 'mkdir -p ${WORKSPACE_DIR}'
             }
         }
@@ -41,26 +43,17 @@ pipeline {
             steps {
                 dir("${WORKSPACE_DIR}") {
                     script {
-                        // Check if any Docker image with the name 'petition' exists
-                        def imageExists = sh(script: "docker images -q petition", returnStdout: true).trim()
-                        if (imageExists) {
-                            echo "An image with the name 'petition' already exists, skipping build"
-                        } else {
-                            // Build Docker image if it does not exist
-                            sh "docker build -t petition:${BUILD_NUMBER} ."
-                            echo "Built new image: petition:${BUILD_NUMBER}"
-                        }
+                        // Build Docker image with a static tag
+                        sh "docker build -t petition:${DOCKER_IMAGE_TAG} ."
+                        echo "Built new image: petition:${DOCKER_IMAGE_TAG}"
                     }
                 }
             }
         }
 
         stage('Clean Tomcat Webapps') {
-                    steps { sh "rm -rf /usr/local/tomcat/webapps/*" }
+            steps { sh "rm -rf /usr/local/tomcat/webapps/*" }
         }
-
-
-
 
         stage('Run tomcat container') {
             steps {
@@ -74,8 +67,8 @@ pipeline {
                         //sh "docker stop ${runningContainer}"
                         //sh "docker rm ${runningContainer}"
                     } else {
-                        // Run the new container if no 'petition' container is running
-                        sh 'docker run -d --name petition -p 9090:9090 petition:${BUILD_NUMBER}'
+                        // Run the new container with a static tag
+                        sh 'docker run -d --name petition -p 9090:9090 petition:${DOCKER_IMAGE_TAG}'
                         // Check if the container is running
                         sleep 5 // Wait for the container to start
                         runningContainer = sh(script: "docker ps --filter 'name=petition' -q", returnStdout: true).trim()
