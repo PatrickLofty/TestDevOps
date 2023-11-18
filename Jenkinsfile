@@ -55,32 +55,37 @@ pipeline {
             steps { sh "rm -rf /usr/local/tomcat/webapps/*" }
         }
 
-        stage('Run tomcat container') {
-            steps {
-                script {
-                    // Check if a container with the name 'petition' is already running
-                    def runningContainer = sh(script: "docker ps --filter 'name=petition' -q", returnStdout: true).trim()
+       stage('Build tomcat container') {
+           steps {
+               script {
+                   // Check if a container with the name 'petition' exists
+                   def existingContainer = sh(script: "docker ps -a --filter 'name=petition' -q", returnStdout: true).trim()
+                   if (existingContainer) {
+                       // Check if the container is already running
+                       def runningContainer = sh(script: "docker ps --filter 'name=petition' -q", returnStdout: true).trim()
+                       if (runningContainer) {
+                           echo "A container with the name 'petition' is already running, container ID: ${runningContainer}"
+                       } else {
+                           echo "A container with the name 'petition' exists but is not running, starting container ID: ${existingContainer}"
+                           // Start the existing container
+                           sh "docker start ${existingContainer}"
+                       }
+                   } else {
+                       // Run a new container since it doesn't exist
+                       sh 'docker run -d --name petition -p 9090:8080 petition:${DOCKER_IMAGE_TAG}'
+                   }
 
-                    if (runningContainer) {
-                        echo "A container with the name 'petition' is already running, container ID: ${runningContainer}"
-                        // Optionally, stop and remove the existing container
-                        //sh "docker stop ${runningContainer}"
-                        //sh "docker rm ${runningContainer}"
-                    } else {
-                        // Run the new container with a static tag
-                        sh 'docker run -d --name petition -p 9090:9090 petition:${DOCKER_IMAGE_TAG}'
-                        // Check if the container is running
-                        sleep 5 // Wait for the container to start
-                        runningContainer = sh(script: "docker ps --filter 'name=petition' -q", returnStdout: true).trim()
-                        if (runningContainer) {
-                            echo "Container 'petition' is now running, container ID: ${runningContainer}"
-                        } else {
-                            error "Container 'petition' did not start successfully"
-                        }
-                    }
-                }
-            }
-        }
+                   // Check if the container is running
+                   runningContainer = sh(script: "docker ps --filter 'name=petition' -q", returnStdout: true).trim()
+                   if (runningContainer) {
+                       echo "Container 'petition' is now running, container ID: ${runningContainer}"
+                   } else {
+                       error "Container 'petition' did not start successfully"
+                   }
+               }
+           }
+       }
+
 
         stage('Verify Deployment') {
             steps {
