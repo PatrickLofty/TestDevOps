@@ -43,17 +43,21 @@ pipeline {
             steps {
                 dir("${WORKSPACE_DIR}") {
                     script {
-                        // Build Docker image with a static tag
-                        sh "docker build -t petition:${DOCKER_IMAGE_TAG} ."
-                        echo "Built new image: petition:${DOCKER_IMAGE_TAG}"
+                        // Check if a Docker image with the name 'petition' and the specified tag already exists
+                        def imageExists = sh(script: "docker images -q petition:${DOCKER_IMAGE_TAG}", returnStdout: true).trim()
+
+                        if (imageExists) {
+                            echo "Image petition:${DOCKER_IMAGE_TAG} already exists, skipping build."
+                        } else {
+                            // Build Docker image with a static tag
+                            sh "docker build -t petition:${DOCKER_IMAGE_TAG} ."
+                            echo "Built new image: petition:${DOCKER_IMAGE_TAG}"
+                        }
                     }
                 }
             }
         }
 
-        stage('Clean Tomcat Webapps') {
-            steps { sh "rm -rf /usr/local/tomcat/webapps/*" }
-        }
 
        stage('Build tomcat container') {
            steps {
@@ -67,6 +71,8 @@ pipeline {
                            echo "A container with the name 'petition' is already running, container ID: ${runningContainer}"
                        } else {
                            echo "A container with the name 'petition' exists but is not running, starting container ID: ${existingContainer}"
+                           // Clean up the Tomcat webapps directory inside the container
+                           sh "docker exec ${existingContainer} rm -rf /usr/local/tomcat/webapps/*"
                            // Start the existing container
                            sh "docker start ${existingContainer}"
                        }
@@ -85,6 +91,7 @@ pipeline {
                }
            }
        }
+
 
 
         stage('Verify Deployment') {
