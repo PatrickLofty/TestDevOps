@@ -66,31 +66,24 @@ pipeline {
                    // Check if a container with the name 'petition' exists
                    def existingContainer = sh(script: "docker ps -a --filter 'name=petition' -q", returnStdout: true).trim()
                    if (existingContainer) {
-                       // Check if the container is already running
-                       def runningContainer = sh(script: "docker ps --filter 'name=petition' -q", returnStdout: true).trim()
-                       if (runningContainer) {
-                           echo "A container with the name 'petition' is already running, container ID: ${runningContainer}"
-                       } else {
-                           echo "A container with the name 'petition' exists but is not running, starting container ID: ${existingContainer}"
-                           // Start the existing container
-                           sh "docker start ${existingContainer}"
-                           // Sleep to allow the application to initialize
-                           echo "Waiting for the application to start..."
-                           sleep(time: 15, unit: 'SECONDS')
-                       }
-                   } else {
-                       // Run a new container since it doesn't exist
-                       sh 'docker run -d --name petition -p 9090:8080 petition:${DOCKER_IMAGE_TAG}'
-                       // Sleep to allow the application to initialize
-                       echo "Waiting for the application to start..."
-                       sleep(time: 15, unit: 'SECONDS')
+                       // Stop the existing container if it is running
+                       sh "docker stop ${existingContainer}"
+                       // Remove the existing container
+                       sh "docker rm ${existingContainer}"
+                       echo "Removed existing container with the name 'petition', container ID: ${existingContainer}"
                    }
 
+                   // Run a new container since it doesn't exist or was removed
+                   sh 'docker run -d --name petition -p 9090:8080 petition:${DOCKER_IMAGE_TAG}'
+                   // Sleep to allow the application to initialize
+                   echo "Waiting for the application to start..."
+                   sleep(time: 15, unit: 'SECONDS')
+
                    // Check if the container is running
-                   runningContainer = sh(script: "docker ps --filter 'name=petition' -q", returnStdout: true).trim()
+                   def runningContainer = sh(script: "docker ps --filter 'name=petition' -q", returnStdout: true).trim()
                    if (runningContainer) {
                        echo "Container 'petition' is now running, container ID: ${runningContainer}"
-                       // sleep again if needed after confirming the container is running
+                       // Sleep again if needed after confirming the container is running
                        echo "Container started. Waiting for the application to become fully operational..."
                        sleep(time: 15, unit: 'SECONDS')
                    } else {
