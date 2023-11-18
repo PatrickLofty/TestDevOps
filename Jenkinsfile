@@ -58,7 +58,6 @@ pipeline {
             }
         }
 
-
        stage('Build tomcat container') {
            steps {
                script {
@@ -71,28 +70,33 @@ pipeline {
                            echo "A container with the name 'petition' is already running, container ID: ${runningContainer}"
                        } else {
                            echo "A container with the name 'petition' exists but is not running, starting container ID: ${existingContainer}"
-                           // Clean up the Tomcat webapps directory inside the container
-                           sh "docker exec ${existingContainer} rm -rf /usr/local/tomcat/webapps/*"
                            // Start the existing container
                            sh "docker start ${existingContainer}"
+                           // Sleep to allow the application to initialize
+                           echo "Waiting for the application to start..."
+                           sleep(time: 15, unit: 'SECONDS')
                        }
                    } else {
                        // Run a new container since it doesn't exist
                        sh 'docker run -d --name petition -p 9090:8080 petition:${DOCKER_IMAGE_TAG}'
+                       // Sleep to allow the application to initialize
+                       echo "Waiting for the application to start..."
+                       sleep(time: 15, unit: 'SECONDS')
                    }
 
                    // Check if the container is running
                    runningContainer = sh(script: "docker ps --filter 'name=petition' -q", returnStdout: true).trim()
                    if (runningContainer) {
                        echo "Container 'petition' is now running, container ID: ${runningContainer}"
+                       // sleep again if needed after confirming the container is running
+                       echo "Container started. Waiting for the application to become fully operational..."
+                       sleep(time: 15, unit: 'SECONDS')
                    } else {
                        error "Container 'petition' did not start successfully"
                    }
                }
            }
        }
-
-
 
         stage('Verify Deployment') {
             steps {
