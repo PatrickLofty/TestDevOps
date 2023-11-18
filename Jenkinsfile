@@ -50,6 +50,8 @@ pipeline {
                             echo "Image petition:${DOCKER_IMAGE_TAG} already exists, skipping build."
                         } else {
                             // Build Docker image with a static tag
+                            // Pull the latest Tomcat base image
+                            sh "docker pull tomcat:latest"
                             sh "docker build -t petition:${DOCKER_IMAGE_TAG} ."
                             echo "Built new image: petition:${DOCKER_IMAGE_TAG}"
                         }
