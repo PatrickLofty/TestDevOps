@@ -74,7 +74,7 @@ pipeline {
                    }
 
                    // Run a new container since it doesn't exist or was removed
-                   sh 'docker run -d --name petition -p 8081:9090 petition:${DOCKER_IMAGE_TAG}'
+                   sh 'docker run -d --name petition -p 9090:8080 petition:${DOCKER_IMAGE_TAG}'
                    // Sleep to allow the application to initialize
                    echo "Waiting for the application to start..."
                    sleep(time: 15, unit: 'SECONDS')
