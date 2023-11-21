@@ -31,12 +31,6 @@ pipeline {
                     sh 'mvn clean compile package'
                 }
             }
-
-            post {
-                success {
-                    archiveArtifacts allowEmptyArchive: true, artifacts: '**/target/*.war'
-                }
-            }
         }
 
         stage('Docker Build') {
@@ -132,10 +126,13 @@ pipeline {
         }
     }
 
-    post {
-        always {
-            // Clean up the workspace after the build is done
-            sh "rm -rf ${WORKSPACE_DIR}"
-        }
-    }
+   post {
+       success {
+           archiveArtifacts allowEmptyArchive: false, artifacts: '**/target/*.war'
+       }
+       always {
+           // Clean up the workspace after the build is done
+           sh "rm -rf ${WORKSPACE_DIR}"
+       }
+   }
 }
