@@ -90,7 +90,7 @@ pipeline {
         stage('Verify Deployment') {
             steps {
                 script {
-                    def maxRetries = 5
+                    def maxRetries = 3
                     def retryDelay = 10 // seconds
                     def success = false
 
