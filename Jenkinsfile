@@ -50,7 +50,7 @@ pipeline {
                         } else {
                             // Build Docker image with a static tag
                             // Pull the latest Tomcat base image
-                            /* sh "docker pull tomcat:10.1.15"
+                            //* sh "docker pull tomcat:10.1.15"
                             sh "docker build -t petition:${DOCKER_IMAGE_TAG} ."
                             echo "Built new image: petition:${DOCKER_IMAGE_TAG}" 
                             sh "docker-compose up -d"*/
