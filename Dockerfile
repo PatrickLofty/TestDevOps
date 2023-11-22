@@ -6,7 +6,7 @@ EXPOSE 9090
 CMD ["catalina.sh", "run"]
 
 
-#this command creates a sql database using the schema
+#this command creates a sql database using the schema for mysql
 #FROM mysql:latest
 #ENV MYSQL_DATABASE=<petition> \
 #    MYSQL_ROOT_PASSWORD=<pass>
