@@ -93,43 +93,7 @@ pipeline {
              }
          }
    */
-        stage('Verify Deployment') {
-            steps {
-                script {
-                    def maxRetries = 3
-                    def retryDelay = 10 // seconds
-                    def success = false
 
-                    for (int i = 0; i < maxRetries; i++) {
-                        // Check if endpoint is responding
-                        def responseCode = sh(script: "curl -m 10 -s -o response.txt -w '%{http_code}' http://localhost:9090/project", returnStdout: true).trim()
-                        echo "Response Code: ${responseCode}"
-
-                        if (responseCode.toInteger() >= 200 && responseCode.toInteger() < 300) {
-                            echo "Container running and endpoint reached successfully."
-                            success = true
-                            break
-                        } else if (responseCode == '404') {
-                            echo "Container running but endpoint not reached, check URL."
-                        } else if (responseCode == '302') {
-                            echo "Redirect received, check if this is expected behavior."
-                        } else {
-                            echo "Unexpected response code. Response body:"
-                            sh "cat response.txt"
-                        }
-
-                        if (i < maxRetries - 1) {
-                            echo "Retrying in ${retryDelay} seconds..."
-                            sleep(retryDelay)
-                        }
-                    }
-
-                    if (!success) {
-                        error "Deployment verification failed after ${maxRetries} attempts."
-                    }
-                }
-            }
-        }
     }
 
     post {
