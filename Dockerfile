@@ -1,14 +1,11 @@
-FROM tomcat:10.1.15
-#RUN sed -i 's/port="8080"/port="9090"/' /usr/local/tomcat/conf/server.xml
+FROM maven:3.8.5-openjdk-17 AS build
+WORKDIR /app
+COPY pom.xml pom.xml
+COPY src src
+RUN  mvn clean compile
+RUN  mvn package -DskipTests
 
-ADD ./target/project.war /usr/local/tomcat/webapps/project.war
-EXPOSE 8080
-CMD ["catalina.sh", "run"]
-
-
-#this command creates a sql database using the schema
-#FROM mysql:latest
-#ENV MYSQL_DATABASE=<petition> \
-#    MYSQL_ROOT_PASSWORD=<pass>
-#ADD petition_application_schema.sql /docker-entrypoint-initdb.d
-#EXPOSE 3306
+FROM openjdk:17
+COPY --from=build /app/target/project.war app.war
+EXPOSE 9090
+CMD ["java", "-jar", "app.war"]
