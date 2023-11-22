@@ -5,6 +5,8 @@ ADD ./target/project.war /usr/local/tomcat/webapps/project.war
 EXPOSE 9090
 CMD ["catalina.sh", "run"]
 
+
+#this command creates a sql database using the schema
 #FROM mysql:latest
 #ENV MYSQL_DATABASE=<petition> \
 #    MYSQL_ROOT_PASSWORD=<pass>
