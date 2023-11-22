@@ -16,7 +16,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: petition:${DOCKER_IMAGE_TAG}
+    image: "petition:${DOCKER_IMAGE_TAG}"
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://db-app:3306/PetitionAppDB?useSSL=false&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: app
@@ -27,6 +27,3 @@ services:
       - db-app
     volumes:
       - .:/app
-
-
-
