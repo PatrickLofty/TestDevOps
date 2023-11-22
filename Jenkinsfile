@@ -40,7 +40,7 @@ pipeline {
                 dir("${WORKSPACE_DIR}") {
                     script {
 
-                        sh "docker-compose up -d"
+                        sh "docker compose up -d"
 
                         /* // Check if a Docker image with the name 'petition' and the specified tag already exists
                         def imageExists = sh(script: "docker images -q petition:${DOCKER_IMAGE_TAG}", returnStdout: true).trim()
