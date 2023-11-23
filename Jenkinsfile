@@ -108,7 +108,7 @@ pipeline {
             emailext(
             subject: 'Jenkins Notification - Deployment Successful',
             body: 'Deployment of your application was successful.',
-            to: ${EMAIL_RECIPIENT}
+            to: "${EMAIL_RECIPIENT}"
             )
 
 
