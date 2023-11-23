@@ -1,4 +1,4 @@
--- SQL script for creating tables and adding constraints for the Petition application
+-- SQL script for creating tables and adding constraints for Petition application
 
 -- Creating the petition table
 CREATE TABLE petition (
