@@ -41,7 +41,7 @@ pipeline {
             steps {
                 dir("${WORKSPACE_DIR}") {
                     script {
-                        sh "docker-compose down"
+                        sh "docker-compose down "
                         sh "docker-compose up -d"
 
                         /* // Check if a Docker image with the name 'petition' and the specified tag already exists
