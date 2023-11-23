@@ -11,7 +11,7 @@
         <div class="petitions-container">
             <div class="petitions-wrapper">
             <h2 class="petitions-title">Petitions</h2>
-                <th:block th:each="petition : ${petitions}">
+                <th:block th:each="petition, iterStat : ${petitions}">
                     <div class="card petition-card">
                         <h3><a th:href="@{/petition/{id}(id=${petition.id})}" th:text="${petition.title}" class="custom-link"></a></h3>
                         <p th:text="${petition.description}"></p>
