@@ -2,7 +2,7 @@
 
 -- Creating the petition table
 CREATE TABLE petition (
-NOT NULL AUTO_INCREMENT,
+    id BIGINT NOT NULL AUTO_INCREMENT,
     description VARCHAR(1500),
     title VARCHAR(255),
     PRIMARY KEY (id)
@@ -11,6 +11,7 @@ NOT NULL AUTO_INCREMENT,
 -- Creating the signature table
 CREATE TABLE signature (
     id BIGINT NOT NULL AUTO_INCREMENT,
+    petition_id BIGINT,
     email VARCHAR(255),
     name VARCHAR(255),
     PRIMARY KEY (id)
@@ -32,4 +33,7 @@ ADD CONSTRAINT fk_signature_signatures_id FOREIGN KEY (signatures_id) REFERENCES
 
 ALTER TABLE petition_signatures 
 ADD CONSTRAINT fk_petition_petition_id FOREIGN KEY (petition_id) REFERENCES petition (id);;
+
+ALTER TABLE signature 
+ADD CONSTRAINT fk_petition_in_signature FOREIGN KEY (petition_id) REFERENCES petition (id);;
 
