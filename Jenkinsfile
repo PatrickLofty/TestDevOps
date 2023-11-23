@@ -6,6 +6,8 @@ pipeline {
         WORKSPACE_DIR = "build_workspace_${env.BUILD_ID}"
         // Define a static tag for Docker image
         DOCKER_IMAGE_TAG = "latest"
+        // Define the email address to send notifications to
+        EMAIL_RECIPIENT = 'manunited2006@gmail.com'
     }
 
     stages {
@@ -106,7 +108,7 @@ pipeline {
             emailext(
             subject: 'Jenkins Notification - Deployment Successful',
             body: 'Deployment of your application was successful.',
-            to: manunited2006@gmail.com
+            to: EMAIL_RECIPIENT
             )
 
 
