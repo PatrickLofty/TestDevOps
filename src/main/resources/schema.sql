@@ -1,7 +1,7 @@
 -- SQL script for creating tables and adding constraints for the Petition application
 
 -- Creating the petition table
-CREATE TABLE petition (
+CREATE TABLE if not exists petition (
     id BIGINT NOT NULL AUTO_INCREMENT,
     description VARCHAR(1500),
     title VARCHAR(255),
@@ -9,7 +9,7 @@ CREATE TABLE petition (
 );;
 
 -- Creating the signature table
-CREATE TABLE signature (
+CREATE TABLE if not exists signature (
     id BIGINT NOT NULL AUTO_INCREMENT,
     petition_id BIGINT,
     email VARCHAR(255),
@@ -18,7 +18,7 @@ CREATE TABLE signature (
 );;
 
 -- Creating the petition_signatures table
-CREATE TABLE petition_signatures (
+CREATE TABLE if not exists  petition_signatures (
     petition_id BIGINT NOT NULL,
     signatures_id BIGINT NOT NULL
 );;
