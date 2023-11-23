@@ -6,32 +6,22 @@
     <link th:href="@{/style.css}" rel="stylesheet" />
 </head>
 <body>
-    <div th:replace="fragments :: topbar"></div>
-    <div class="centered-content">
-        <div class="petitions-container">
-            <div class="petitions-wrapper">
+<div th:replace="fragments :: topbar"></div>
+<div class="centered-content">
+    <div class="petitions-container">
+        <div class="petitions-wrapper">
             <h2 class="petitions-title">Petitions</h2>
-                <th:block th:each="petition, iterStat : ${petitions}">
-                    <div class="card petition-card">
-                        <h3><a th:href="@{/petition/{id}(id=${petition.id})}" th:text="${petition.title}" class="custom-link"></a></h3>
-                        <p th:text="${petition.description}"></p>
-                    </div>
-                </th:block>
-            </div>
+            <th:block th:each="petition, iterStat : ${petitions}">
+                <div class="card petition-card">
+                    <span th:text="${iterStat.count} + '. '"></span>
+                    <h3>
+                        <a th:href="@{/petition/{id}(id=${petition.id})}" th:text="${petition.title}" class="custom-link"></a>
+                    </h3>
+                    <p th:text="${petition.description}"></p>
+                </div>
+            </th:block>
         </div>
     </div>
-    <script>
-        function loadCSS(filename) {
-            var link = document.createElement("link");
-            link.rel = "stylesheet";
-            link.type = "text/css";
-            link.href = filename;
-
-            document.head.appendChild(link);
-        }
-        // Call the function with the path to your CSS file
-        // Use an absolute path to ensure it loads correctly
-        loadCSS("/style.css");
-    </script>
+</div>
 </body>
 </html>
