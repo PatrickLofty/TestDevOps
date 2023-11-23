@@ -110,6 +110,7 @@ public class PetitionController {
         if (petitionOptional.isPresent()) {
             Petition petition = petitionOptional.get();
             Signature signature = new Signature(name, email);
+            signature.addPetition(petition);
             petition.addSignature(signature);
             petitionService.savePetition(petition);
             return "redirect:/petition/" + id;

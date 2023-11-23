@@ -26,7 +26,7 @@ public class Petition {
     @Column(length = 1500)
     private String description;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "petition")
     private List<Signature> signatures = new ArrayList<>();
 
     /**

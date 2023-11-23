@@ -113,4 +113,8 @@ public class Signature {
     public String toString() {
         return "Signature{" + "id=" + id + ", name='" + name + '\'' + ", email='" + email + '\'' + '}';
     }
+
+    public void addPetition(Petition petition) {
+        this.petition = petition;
+    }
 }
