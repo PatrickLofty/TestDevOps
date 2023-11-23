@@ -35,17 +35,11 @@ pipeline {
     post {
         success {
             echo 'Deployment successful!'
-            emailext(
-                subject: 'Jenkins Notification - Deployment Successful',
-                body: 'Deployment of your application was successful.',
+            emailext (
+                subject: "Deployment successful",
+                body: "Deployment successful",
                 to: "${EMAIL_RECIPIENT}"
             )
-            script {
-                sh 'docker image prune -f'
-            }
-        }
-        always {
-            sh "rm -rf ${WORKSPACE_DIR}"
         }
     }
 }
