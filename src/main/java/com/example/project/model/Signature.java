@@ -1,10 +1,6 @@
 package com.example.project.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 /**
  * Represents a signature for a petition.
@@ -19,6 +15,7 @@ public class Signature {
     private String email;
 
     @ManyToOne
+    @JoinColumn(name="petition_id", nullable=false)
     private Petition petition;
 
     /**
