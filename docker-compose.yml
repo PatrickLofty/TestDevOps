@@ -23,6 +23,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: root
     ports:
       - "9090:8081"
+    restart: always
     depends_on:
       - db-app
     volumes:
