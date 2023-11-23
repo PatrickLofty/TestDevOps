@@ -20,5 +20,18 @@
             </div>
         </div>
     </div>
+    <script>
+        function loadCSS(filename) {
+            var link = document.createElement("link");
+            link.rel = "stylesheet";
+            link.type = "text/css";
+            link.href = filename;
+
+            document.head.appendChild(link);
+        }
+        // Call the function with the path to your CSS file
+        // Use an absolute path to ensure it loads correctly
+        loadCSS("/style.css");
+    </script>
 </body>
 </html>
