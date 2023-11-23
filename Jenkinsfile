@@ -98,11 +98,27 @@ pipeline {
 
     post {
         success {
-            archiveArtifacts allowEmptyArchive: false, artifacts: '**/target/*.war'
+            echo 'Deployment successful!'
+
+
+
+            // Send email notification after a successful deployment
+            emailext(
+            subject: 'Jenkins Notification - Deployment Successful',
+            body: 'Deployment of your application was successful.',
+            to: manunited2006@gmail.com
+            )
+
+
+
+            // Clean up Docker images after a successful deployment
+            script {
+            sh 'docker image prune -f'
+            }
         }
-        always {
-            // Clean up the workspace after the build is done
-            sh "rm -rf ${WORKSPACE_DIR}"
-        }
+        //always {
+         //   // Clean up the workspace after the build is done
+        //    sh "rm -rf ${WORKSPACE_DIR}"
+       // }
     }
 }
