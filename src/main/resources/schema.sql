@@ -18,22 +18,6 @@ CREATE TABLE signature (
    FOREIGN KEY (petition_id) REFERENCES petition (id)
 );
 
--- Creating the petition_signatures table
-CREATE TABLE petition_signatures (
-    petition_id BIGINT NOT NULL,
-    signatures_id BIGINT NOT NULL
-);
-
--- Adding a unique constraint to the petition_signatures table
-ALTER TABLE petition_signatures 
-ADD CONSTRAINT unique_signatures_id UNIQUE (signatures_id);;
-
--- Adding foreign key constraints
-ALTER TABLE petition_signatures 
-ADD CONSTRAINT fk_signature_signatures_id FOREIGN KEY (signatures_id) REFERENCES signature (id);
-
-ALTER TABLE petition_signatures 
-ADD CONSTRAINT fk_petition_petition_id FOREIGN KEY (petition_id) REFERENCES petition (id);
 
 ALTER TABLE signature 
 ADD CONSTRAINT fk_petition_in_signature FOREIGN KEY (petition_id) REFERENCES petition (id);
