@@ -1,24 +1,23 @@
 -- SQL script for creating tables and adding constraints for the Petition application
 
 -- Creating the petition table
-CREATE TABLE if not exists petition (
-    id BIGINT NOT NULL AUTO_INCREMENT,
+CREATE TABLE petition (
+NOT NULL AUTO_INCREMENT,
     description VARCHAR(1500),
     title VARCHAR(255),
     PRIMARY KEY (id)
 );;
 
 -- Creating the signature table
-CREATE TABLE if not exists signature (
+CREATE TABLE signature (
     id BIGINT NOT NULL AUTO_INCREMENT,
-    petition_id BIGINT,
     email VARCHAR(255),
     name VARCHAR(255),
     PRIMARY KEY (id)
 );;
 
 -- Creating the petition_signatures table
-CREATE TABLE if not exists  petition_signatures (
+CREATE TABLE petition_signatures (
     petition_id BIGINT NOT NULL,
     signatures_id BIGINT NOT NULL
 );;
@@ -33,7 +32,4 @@ ADD CONSTRAINT fk_signature_signatures_id FOREIGN KEY (signatures_id) REFERENCES
 
 ALTER TABLE petition_signatures 
 ADD CONSTRAINT fk_petition_petition_id FOREIGN KEY (petition_id) REFERENCES petition (id);;
-
-ALTER TABLE signature 
-ADD CONSTRAINT fk_petition_in_signature FOREIGN KEY (petition_id) REFERENCES petition (id);;
 

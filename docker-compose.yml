@@ -11,20 +11,6 @@ services:
       MYSQL_PASSWORD: root
     volumes:
       - ./db:/docker-entrypoint-initdb.d
-
-  back:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      # image: "petition:${DOCKER_IMAGE_TAG}"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db-app:3306/PetitionAppDB?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-      SPRING_DATASOURCE_USERNAME: app
-      SPRING_DATASOURCE_PASSWORD: root
-    ports:
-      - "9090:8081"
-    restart: always
-    depends_on:
-      - db-app
-    volumes:
-      - .:/app
+networks:
+  default:
+    driver: bridge
