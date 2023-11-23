@@ -24,9 +24,7 @@ pipeline {
             steps {
                 dir("${WORKSPACE_DIR}") {
                     script {
-                        sh 'docker stop $(docker ps -aq)'
-                        sh 'docker rm $(docker ps -aq)'
-                        sh 'docker rmi -f $(docker images -aq)'
+                        sh 'docker-compose down -v --remove-orphans'
                         sh 'docker-compose up -d'
                     }
                 }
