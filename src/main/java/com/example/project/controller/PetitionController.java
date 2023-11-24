@@ -133,7 +133,7 @@ public class PetitionController {
      * Handles the search result based on the provided query and search criteria.
      *
      * @param query The search query.
-     * @param searchTitle Indicates if the search should include titles.
+     * @param searchTitle Indicates if search should include titles.
      * @param searchDescription Indicates if the search should include descriptions.
      * @param model The Spring MVC Model used to pass attributes to the view.
      * @return The name of the search result template.
